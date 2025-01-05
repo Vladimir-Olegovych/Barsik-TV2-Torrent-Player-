@@ -17,7 +17,6 @@ import com.baron.barsiktv2.MainViewModel
 import com.baron.barsiktv2.NavigationGraph
 import com.baron.barsiktv2.ui.theme.GrayBlack
 import com.baron.barsiktv2.ui.theme.TorrentCard
-import com.baron.domain.models.TorrentInstance
 
 @Composable
 fun TorrentScreen(viewModel: MainViewModel,
@@ -51,7 +50,6 @@ fun TorrentScreen(viewModel: MainViewModel,
     DisposableEffect(Unit) {
         onDispose {
             viewModel.stopJobs()
-            viewModel.setTorrentInstance(TorrentInstance())
         }
     }
 }

@@ -1,5 +1,11 @@
 package com.baron.barsiktv2
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.baron.barsiktv2.models.DataItem
@@ -34,9 +40,6 @@ class MainViewModel @Inject constructor(
     private val _search = MutableStateFlow<Array<SourceSearch>>(emptyArray())
     val search: StateFlow<Array<SourceSearch>> = _search.asStateFlow()
 
-    private val _data = MutableStateFlow(DataResult())
-    val data: StateFlow<DataResult> = _data.asStateFlow()
-
     private val taskArray = ArrayList<Job>()
 
     fun setTorrentFile(hash: String, index: Int){
@@ -67,16 +70,20 @@ class MainViewModel @Inject constructor(
         )
     }
 
-    fun info(sourceId: String, entryId: String) {
-        taskArray.add(
-            viewModelScope.launch(Dispatchers.IO) {
-                _data.value = barsikRetrofitUseCase.info(sourceId, entryId) ?: return@launch
-            }
-        )
+    @Composable
+    fun info(sourceId: String, entryId: String): State<DataResult?> {
+        val state = remember { mutableStateOf<DataResult?>(null) }
+        LaunchedEffect(Unit) {
+            taskArray.add(
+                viewModelScope.launch(Dispatchers.IO) {
+                    state.value = barsikRetrofitUseCase.info(sourceId, entryId) ?: return@launch
+                }
+            )
+        }
+        return state
     }
 
     fun clearSearch(){
-        _data.value = DataResult()
         _search.value = emptyArray()
     }
 
