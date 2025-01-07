@@ -1,5 +1,6 @@
 package com.baron.barsiktv2.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,13 +11,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,6 +25,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -62,14 +65,8 @@ fun MainScreen(
     ) {
         Column {
 
+            val context = LocalContext.current
             val query = rememberSaveable { mutableStateOf("") }
-            val searchAction: KeyboardActionScope.() -> Unit = {
-                loadedItems.clear()
-                viewModel.stopJobs()
-                viewModel.clearSearch()
-                viewModel.search(query.value, 0)
-                keyboardController?.hide()
-            }
 
             OutlinedTextField(
                 modifier = Modifier
@@ -82,10 +79,14 @@ fun MainScreen(
                     imeAction = ImeAction.Search,
                 ),
                 keyboardActions = KeyboardActions(
-                    onSearch = searchAction,
-                    onDone = searchAction,
-                    onSend = searchAction,
-                    onGo = searchAction
+                    onSearch = {
+                        Toast.makeText(context, "Loading...", Toast.LENGTH_LONG).show()
+                        loadedItems.clear()
+                        viewModel.stopJobs()
+                        viewModel.clearSearch()
+                        viewModel.search(query.value, 0)
+                        keyboardController?.hide()
+                    }
                 ),
                 colors = getMainColors(),
                 value = query.value,
