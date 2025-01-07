@@ -8,16 +8,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.error
+import com.baron.barsiktv2.R
 import com.baron.barsiktv2.models.DataItem
 import com.baron.domain.models.TorrentFile
 
@@ -31,9 +37,13 @@ fun SearchCard(dataItem: DataItem, onClick: (DataItem) -> Unit) {
             .border(1.dp, Color.White, RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth().background(GrayBlack2)) {
             AsyncImage(
-                model = dataItem.dataResult.image,
+                modifier = Modifier.height(250.dp).width(150.dp).background(Color.Black),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(dataItem.dataResult.image)
+                    .error(R.drawable.no_image)
+                    .build(),
                 contentDescription = null,
             )
 
