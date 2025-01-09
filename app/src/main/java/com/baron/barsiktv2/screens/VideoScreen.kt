@@ -1,5 +1,6 @@
 package com.baron.barsiktv2.screens
 
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,20 +15,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import com.baron.barsiktv2.MainViewModel
 import com.baron.data.network.BarsikRetrofit
 
+@OptIn(UnstableApi::class)
 @Composable
-fun VideoScreen(viewModel: MainViewModel,
-                navController: NavController){
+fun VideoScreen(
+    viewModel: MainViewModel,
+    navController: NavController,
+){
 
     val context = LocalContext.current
     val torrentFile by viewModel.torrentFile.collectAsState()
-    val exoPlayer = ExoPlayer.Builder(context).build()
 
+    val screen = context.resources.displayMetrics
+    val trackSelector = DefaultTrackSelector(context).apply {
+        setParameters(buildUponParameters().setMaxVideoSize(screen.widthPixels, screen.heightPixels))
+    }
+    val exoPlayer = ExoPlayer.Builder(context).setTrackSelector(trackSelector).build()
 
     val hash = torrentFile.first
     val index = torrentFile.second
