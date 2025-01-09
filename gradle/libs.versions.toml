@@ -6,6 +6,7 @@ retrofit = "2.11.0"
 kotlin = "2.0.0"
 hiltAndroid = "2.51.1"
 hiltNavigationCompose = "1.2.0"
+navigation = "2.8.0"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
 composeBom = "2024.04.01"
@@ -36,6 +37,7 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 converter-jackson = { module = "com.squareup.retrofit2:converter-jackson", version.ref = "converterJackson" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

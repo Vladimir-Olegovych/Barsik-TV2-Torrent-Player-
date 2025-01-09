@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -58,12 +59,14 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.converter.jackson)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Text
@@ -37,28 +38,47 @@ fun SearchCard(dataItem: DataItem, onClick: (DataItem) -> Unit) {
             .border(1.dp, Color.White, RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
     ) {
-        Row(modifier = Modifier.fillMaxWidth().background(GrayBlack2)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(GrayBlack2)
+        ) {
             AsyncImage(
-                modifier = Modifier.height(250.dp).width(150.dp).background(Color.Black),
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(dataItem.dataResult.image)
-                    .error(R.drawable.no_image)
-                    .build(),
+                modifier = Modifier
+                    .height(250.dp)
+                    .width(150.dp)
+                    .background(Color.Black),
+                model = dataItem.dataResult.image,
+                error = painterResource(R.drawable.no_image),
                 contentDescription = null,
             )
 
             Column(
-                modifier = Modifier.fillMaxSize().padding(8.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(8.dp)
             ) {
-                Text(text = dataItem.searchResult.title, color = Color.White, fontSize = 20.sp)
-                Text(text = "Date: ${dataItem.searchResult.date}", color = Color.White, fontSize = 16.sp)
+                Text(
+                    text = dataItem.searchResult.title,
+                    color = Color.White,
+                    fontSize = 20.sp
+                )
+                Text(
+                    text = "Date: ${dataItem.searchResult.date}",
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
                 Text(
                     modifier = Modifier,
                     text = "Source: ${dataItem.sourceSearch.sourceName}",
                     color = Color.White,
                     fontSize = 16.sp,
                 )
-                Text(text = dataItem.dataResult.description ?: return, color = Color.White, fontSize = 16.sp)
+                Text(
+                    text = dataItem.dataResult.description.orEmpty(),
+                    color = Color.White,
+                    fontSize = 16.sp
+                )
             }
         }
     }
@@ -67,11 +87,16 @@ fun SearchCard(dataItem: DataItem, onClick: (DataItem) -> Unit) {
 
 @Composable
 fun TorrentCard(torrentFile: TorrentFile, onClick: (TorrentFile) -> Unit) {
-    Box(modifier = Modifier.fillMaxWidth().background(Color.Gray).clickable {
-        onClick.invoke(torrentFile)
-    }) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .background(Color.Gray)
+        .clickable {
+            onClick.invoke(torrentFile)
+        }) {
         Column(
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
             Text(text = torrentFile.displayPath, color = Color.White)
         }

@@ -15,11 +15,13 @@ import com.baron.domain.models.TorrentFile
 import com.baron.domain.models.TorrentInstance
 import com.baron.domain.usecase.BarsikRetrofitUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.future.asCompletableFuture
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

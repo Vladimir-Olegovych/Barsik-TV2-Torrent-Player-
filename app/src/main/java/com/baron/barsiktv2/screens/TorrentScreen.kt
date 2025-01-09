@@ -20,13 +20,14 @@ import com.baron.barsiktv2.ui.theme.TorrentCard
 
 @Composable
 fun TorrentScreen(viewModel: MainViewModel,
+                  data: String,
                   navController: NavController
 ){
     val dataItem by viewModel.dataItem.collectAsState()
     val torrentInstance by viewModel.torrentInstance.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.torrent(dataItem.dataResult.data)
+        viewModel.torrent(data)
     }
 
     Box(
